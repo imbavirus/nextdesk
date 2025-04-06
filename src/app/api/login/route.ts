@@ -15,7 +15,6 @@ export async function POST(req : Request) {
         // Handle successful login response
         return NextResponse.json(response);
     } catch (error) {
-        console.log('error', error);
         if (error instanceof NextResponse) {
             return error;
         }

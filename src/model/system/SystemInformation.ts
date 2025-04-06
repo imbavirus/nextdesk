@@ -7,4 +7,5 @@ export interface SystemInformation {
     username : string;
     uuid : string;
     version : string;
+    lastSeen : Date;
 }

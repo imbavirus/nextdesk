@@ -1,13 +1,24 @@
-import { AddressBookProfile } from '@/model/addressBook/AddressBookProfile';
+import { unauthorizedResponse } from '@/app/manager/loginManager';
+import { getBearerToken } from '@/app/manager/tokenManager';
+import { getUserGuidFromId, getUserIdFromToken } from '@/app/manager/userManager';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
-    console.log('TODO: HANDLE AB PERSONAL');
-    return NextResponse.json({ status: 'ok'});
+export async function GET(req : Request) {
+    const bearerToken = getBearerToken(req);
+    if (!bearerToken) {
+        return unauthorizedResponse('Unauthorized');
+    }
+    const userId = await getUserIdFromToken(bearerToken);
+    const guid = await getUserGuidFromId(userId);
+    return NextResponse.json({ guid });
 }
 
 export async function POST(req : Request) {
-    const data : AddressBookProfile = await req.json();
-    console.log('TODO: HANDLE AB PERSONAL POST', data);
-    return NextResponse.json({ status: 'ok'});
+    const bearerToken = getBearerToken(req);
+    if (!bearerToken) {
+        return unauthorizedResponse('Unauthorized');
+    }
+    const userId = await getUserIdFromToken(bearerToken);
+    const guid = await getUserGuidFromId(userId);
+    return NextResponse.json({ guid });
 }

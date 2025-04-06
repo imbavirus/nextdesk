@@ -1,7 +1,7 @@
 import { DeviceInformation } from '../system/DeviceInformation';
 
 export interface LoginRequest {
-    username : string;
+    username ?: string;
     password : string;
     id : string;
     uuid : string;

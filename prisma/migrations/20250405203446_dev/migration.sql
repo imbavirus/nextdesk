@@ -1,0 +1,7 @@
+-- CreateTable
+CREATE TABLE "Tag" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "userId" INTEGER NOT NULL,
+    "tag" TEXT NOT NULL,
+    "color" TEXT NOT NULL
+);

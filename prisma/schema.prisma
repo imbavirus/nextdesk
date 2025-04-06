@@ -10,36 +10,85 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model SystemInformation {
-    id       String @id
-    cpu      String
-    hostname String
-    memory   String
-    os       String
-    username String
-    uuid     String
-    version  String
-    tokens   UserToken[]
+model System {
+  id       String      @id
+  cpu      String?
+  hostname String?
+  memory   String?
+  os       String?
+  platform String?
+  userId   Int?
+  uuid     String?
+  version  String?
+  lastSeen DateTime    @default(now())
+  tokens   UserToken[]
+  user     User?       @relation(fields: [userId], references: [id])
+  Peer     Peer[]
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  name      String
-  password  String
-  email     String
-  note      String
-  status    Int
-  isAdmin   Boolean
-  tokens    UserToken[]
+  id         Int         @id @default(autoincrement())
+  guid       String?
+  name       String
+  password   String
+  email      String
+  note       String?
+  status     Int
+  isAdmin    Boolean
+  tokens     UserToken[]
+  peers      Peer[]      @relation("UserPeers")
+  ownedPeers Peer[]      @relation("UserOwnedPeers")
+  System     System[]
+  PeerTag  PeerTag[]
 }
 
 model UserToken {
-  id         Int    @id @default(autoincrement())
-  userId     Int
-  systemId   String
-  token      String
-  isActive   Boolean
+  id       Int     @id @default(autoincrement())
+  userId   Int
+  systemId String
+  token    String
+  isActive Boolean
 
-  system     SystemInformation   @relation(fields: [systemId], references: [id])
-  user       User   @relation(fields: [userId], references: [id])
+  system System @relation(fields: [systemId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Tag {
+  id       Int       @id @default(autoincrement())
+  userId   Int
+  tag      String
+  color    BigInt
+  isActive Boolean
+  peers    Peer[]    @relation("PeerTags")
+  PeerTag  PeerTag[]
+  @@unique([tag, userId]) // Composite unique constraint
+}
+
+model Peer {
+  id       Int       @id @default(autoincrement())
+  userId   Int?
+  ownerId  Int
+  systemId String
+  alias    String?
+  hash     String?
+  isActive Boolean
+  user     User?      @relation("UserPeers", fields: [userId], references: [id])
+  owner    User      @relation("UserOwnedPeers", fields: [ownerId], references: [id])
+  system   System    @relation(fields: [systemId], references: [id])
+  tags     Tag[]     @relation("PeerTags")
+  PeerTag  PeerTag[]
+  @@unique([systemId, ownerId]) // Composite unique constraint
+}
+
+model PeerTag {
+  peerId   Int
+  tagId    Int
+  ownerId  Int
+  isActive Boolean
+
+  peer    Peer  @relation(fields: [peerId], references: [id])
+  tag     Tag   @relation(fields: [tagId], references: [id])
+  owner   User  @relation(fields: [ownerId], references: [id])
+
+  @@id([peerId, tagId, ownerId])
 }

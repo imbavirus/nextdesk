@@ -1,15 +1,15 @@
 import { LoginRequest } from '@/model/login/LoginRequest';
-import { User, PrismaClient } from '@prisma/client';
+import { User } from '@prisma/client';
 import { NextResponse } from 'next/server';
 import { updateSysInfo } from './sysInfoManager';
 import { handleToken } from './tokenManager';
 import { UserPayload } from '@/model/user/UserPayload';
 import { LoginResponse } from '@/model/login/LoginResponse';
 import { hash, compare } from 'bcrypt';
+import { prisma } from './prismaManager';
 
-const prisma = new PrismaClient();
 
-const unauthorizedResponse = (message ?: string) => {
+export const unauthorizedResponse = (message ?: string) => {
     return NextResponse.json({ error: message ?? 'Unauthorized' }, { status: 401 });
 };
 
@@ -56,6 +56,5 @@ export const handleLogin = async (data : LoginRequest) => {
 export const hashPassword = async (password : string) : Promise<string> => {
     const saltRounds = 10; // Adjust the cost factor as needed
     const hashedPassword = await hash(password, saltRounds);
-    console.log('hashed: ', hashedPassword);
     return hashedPassword;
 };
