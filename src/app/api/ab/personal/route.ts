@@ -1,6 +1,6 @@
-import { unauthorizedResponse } from '@/app/manager/loginManager';
-import { getBearerToken } from '@/app/manager/tokenManager';
-import { getUserGuidFromId, getUserIdFromToken } from '@/app/manager/userManager';
+import { unauthorizedResponse } from '@/services/loginService';
+import { getBearerToken } from '@/services/tokenService';
+import { getUserGuidFromId, getUserIdFromToken } from '@/services/userService';
 import { NextResponse } from 'next/server';
 
 export async function GET(req : Request) {

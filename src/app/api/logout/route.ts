@@ -1,4 +1,4 @@
-import { disableToken, getBearerToken } from '@/app/manager/tokenManager';
+import { disableToken, getBearerToken } from '@/services/tokenService';
 import { NextResponse } from 'next/server';
 
 export async function POST(req : Request) {

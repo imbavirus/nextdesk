@@ -1,12 +1,12 @@
-import { LoginRequest } from '@/model/login/LoginRequest';
+import { LoginRequest } from '@/types/login/LoginRequest';
 import { User } from '@prisma/client';
 import { NextResponse } from 'next/server';
-import { updateSysInfo } from './sysInfoManager';
-import { handleToken } from './tokenManager';
-import { UserPayload } from '@/model/user/UserPayload';
-import { LoginResponse } from '@/model/login/LoginResponse';
+import { updateSysInfo } from './sysInfoService';
+import { handleToken } from './tokenService';
+import { UserPayload } from '@/types/user/UserPayload';
+import { LoginResponse } from '@/types/login/LoginResponse';
 import { hash, compare } from 'bcrypt';
-import { prisma } from './prismaManager';
+import { prisma } from './prismaService';
 
 
 export const unauthorizedResponse = (message ?: string) => {
@@ -14,7 +14,7 @@ export const unauthorizedResponse = (message ?: string) => {
 };
 
 const getPrismaUser = async (data : LoginRequest) => {
-    const prismaUser = await prisma.user.findFirst({ where: { name: data.username } });
+    const prismaUser = await prisma.user.findFirst({ where: { name: data.username, provider: 'jwt' } });
     return prismaUser;
 };
 

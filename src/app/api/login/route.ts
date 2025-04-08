@@ -1,5 +1,5 @@
-import { LoginRequest } from '@/model/login/LoginRequest';
-import { handleLogin } from '@/app/manager/loginManager';
+import { LoginRequest } from '@/types/login/LoginRequest';
+import { handleLogin } from '@/services/loginService';
 import { NextResponse } from 'next/server';
 
 export async function POST(req : Request) {

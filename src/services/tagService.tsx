@@ -1,4 +1,4 @@
-import { prisma } from './prismaManager';
+import { prisma } from './prismaService';
 
 export const updateTags = async (tagColors : { [key : string] : number } , userId : number) => {
     // first disable all tags and peertags from this user

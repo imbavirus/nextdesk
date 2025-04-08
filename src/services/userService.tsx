@@ -1,5 +1,7 @@
-import { unauthorizedResponse } from './loginManager';
-import { prisma } from './prismaManager';
+import { unauthorizedResponse } from './loginService';
+import { prisma } from './prismaService';
+import { UserStatus } from '@/types/user/UserStatus';
+import { randomUUID } from 'crypto';
 
 export const getUserIdFromToken = async (token : string) => {
     const userToken = await prisma.userToken.findFirst({ where: { token, isActive: true }});
@@ -36,4 +38,22 @@ export const getUserIdFromGuid = async (guid ?: string) => {
 export const getUserIdsFromUsernames = async (usernames : Array<string>) => {
     const users = await prisma.user.findMany({ where: { name: { in: usernames } }});
     return users;
+};
+
+export const createOidcUser = async (email : string, provider : string) => {
+    if (email && provider) {
+        return (await prisma.user.findUnique({ where: { email_provider: { email, provider } } })) ?? 
+        await prisma.user.create({
+            data: {
+                email,
+                name: email,
+                password: '',
+                status: UserStatus.normal,
+                isAdmin: false,
+                guid: randomUUID(),
+                provider,
+            },
+        });
+    }
+    return;
 };

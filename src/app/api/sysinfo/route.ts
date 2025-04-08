@@ -1,7 +1,7 @@
-import { SystemInformation } from '@/model/system/SystemInformation';
+import { SystemInformation } from '@/types/system/SystemInformation';
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { getUserIdFromUsername } from '@/app/manager/userManager';
+import { getUserIdFromUsername } from '@/services/userService';
 
 const prisma = new PrismaClient();
 

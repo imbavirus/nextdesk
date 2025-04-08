@@ -1,6 +1,6 @@
-import { AddressBookPost } from '@/model/addressBook/AddressBookPost';
+import { AddressBookPost } from '@/types/addressBook/AddressBookPost';
 import { Peer, Tag } from '@prisma/client';
-import { prisma } from './prismaManager';
+import { prisma } from './prismaService';
 
 export const updatePeerTags = async (peers : Array<Peer>, tags : Array<Tag>, data : AddressBookPost, ownerId : number) => {
 

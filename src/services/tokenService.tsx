@@ -1,11 +1,11 @@
-import { LoginRequest } from '@/model/login/LoginRequest';
+import { LoginRequest } from '@/types/login/LoginRequest';
 import { User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { NextResponse } from 'next/server';
-import { prisma } from './prismaManager';
+import { prisma } from './prismaService';
 
-const disableTokens = async (userId : number, systemId : string) => {    
-    await prisma.userToken.updateMany({ where: { userId: userId, systemId: systemId }, data: { isActive: false }});
+const disableTokens = async (userId : number, systemId : string, provider : string) => {    
+    await prisma.userToken.updateMany({ where: { userId, systemId, provider }, data: { isActive: false }});
 };
 
 const generateToken = (request : LoginRequest) => {
@@ -32,10 +32,17 @@ const validateToken = (token ?: string) => {
 };
 
 export const handleToken = async (data : LoginRequest, prismaUser : User) => {
-    await disableTokens(prismaUser?.id ?? 0, data.id);
+    const provider = 'jwt';
+    await disableTokens(prismaUser?.id ?? 0, data.id, provider);
     const token = generateToken(data);
     const validatedToken = validateToken(token);
-    await prisma.userToken.create({ data: { userId: prismaUser.id, systemId: data.id, token: validatedToken, isActive: true }});
+    await prisma.userToken.create({ data: {
+        userId: prismaUser.id,
+        systemId: data.id,
+        provider,
+        token: validatedToken,
+        isActive: true 
+    }});
     return validatedToken;
 };
 
@@ -52,4 +59,15 @@ export const getBearerToken = (req : Request) => {
 
 export const disableToken = async (token : string) => {
     await prisma.userToken.updateMany({ where: { token: token }, data: { isActive: false }});
+};
+
+export const createOidcToken = async (userId : number, systemId : string, provider : string, token : string) => {
+    await disableTokens(userId, systemId, provider);
+    return await prisma.userToken.create({ data: {
+        userId,
+        systemId,
+        provider,
+        token,
+        isActive: true 
+    }});
 };

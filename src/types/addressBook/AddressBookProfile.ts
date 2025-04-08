@@ -3,5 +3,5 @@ export interface AddressBookProfile {
     name : string;
     owner : string;
     note ?: string;
-    rule : number;
+    rule : number; // 1 = Read-Only, 2 = Read/Write, 3 = Full Control
 }

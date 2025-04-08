@@ -1,7 +1,7 @@
-import { updateAddressBook } from '@/app/manager/addressBookManager';
-import { unauthorizedResponse } from '@/app/manager/loginManager';
-import { getBearerToken } from '@/app/manager/tokenManager';
-import { AddressBookPost } from '@/model/addressBook/AddressBookPost';
+import { updateAddressBook } from '@/services/addressBookService';
+import { unauthorizedResponse } from '@/services/loginService';
+import { getBearerToken } from '@/services/tokenService';
+import { AddressBookPost } from '@/types/addressBook/AddressBookPost';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

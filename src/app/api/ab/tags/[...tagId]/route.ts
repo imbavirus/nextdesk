@@ -1,6 +1,6 @@
-import { prisma } from '@/app/manager/prismaManager';
-import { getUserIdFromGuid } from '@/app/manager/userManager';
-import { AddressBookTag } from '@/model/addressBook/AddressBookTag';
+import { prisma } from '@/services/prismaService';
+import { getUserIdFromGuid } from '@/services/userService';
+import { AddressBookTag } from '@/types/addressBook/AddressBookTag';
 import { NextResponse } from 'next/server';
 
 export async function POST(req : Request,

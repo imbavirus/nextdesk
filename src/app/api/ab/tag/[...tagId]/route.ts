@@ -1,5 +1,5 @@
-import { prisma } from '@/app/manager/prismaManager';
-import { getUserIdFromGuid } from '@/app/manager/userManager';
+import { prisma } from '@/services/prismaService';
+import { getUserIdFromGuid } from '@/services/userService';
 import { NextResponse } from 'next/server';
 
 export async function DELETE(req : Request,

@@ -1,5 +1,5 @@
-import { handleHeartbeat } from '@/app/manager/sysInfoManager';
-import { Heartbeat } from '@/model/heartbeat/Heartbeat';
+import { handleHeartbeat } from '@/services/sysInfoService';
+import { Heartbeat } from '@/types/heartbeat/Heartbeat';
 import { NextResponse } from 'next/server';
 
 export async function POST(req : Request) {

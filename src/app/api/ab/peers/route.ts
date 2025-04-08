@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { getUserIdFromGuid } from '@/app/manager/userManager';
-import { Peer } from '@/model/peer/Peer';
+import { getUserIdFromGuid } from '@/services/userService';
+import { Peer } from '@/types/peer/Peer';
 
 const prisma = new PrismaClient();
 
@@ -26,22 +26,22 @@ export async function POST(req : NextRequest) {
             skip: skip,
             take: take,
             include: {
-                user: true,
-                owner: true,
-                system: true,
-                tags: true,
+                User: true,
+                Owner: true,
+                System: true,
+                Tags: true,
             }
         });
 
         const result : Array<Peer> = peers.map(x => {
             return {
                 hash: ab ?? '',
-                id: x.system?.id ?? 0,
-                username: x.user?.name ?? '',
-                hostname: x.system?.hostname ?? '',
-                platform: x.system?.platform ?? '',
+                id: x.System?.id ?? 0,
+                username: x.User?.name ?? '',
+                hostname: x.System?.hostname ?? '',
+                platform: x.System?.platform ?? '',
                 alias: x.alias ?? '',
-                tags: x.tags.map(x => x.tag),
+                tags: x.Tags.map(x => x.tag),
             };
         });
 

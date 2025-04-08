@@ -11,19 +11,20 @@ datasource db {
 }
 
 model System {
-  id       String      @id
-  cpu      String?
-  hostname String?
-  memory   String?
-  os       String?
-  platform String?
-  userId   Int?
-  uuid     String?
-  version  String?
-  lastSeen DateTime    @default(now())
-  tokens   UserToken[]
-  user     User?       @relation(fields: [userId], references: [id])
-  Peer     Peer[]
+  id        String      @id
+  cpu       String?
+  hostname  String?
+  memory    String?
+  os        String?
+  platform  String?
+  userId    Int?
+  uuid      String?
+  version   String?
+  lastSeen  DateTime    @default(now())
+  Tokens    UserToken[]
+  User      User?       @relation(fields: [userId], references: [id])
+  Peers     Peer[]
+  AuthCodes AuthCode[]
 }
 
 model User {
@@ -35,11 +36,14 @@ model User {
   note       String?
   status     Int
   isAdmin    Boolean
-  tokens     UserToken[]
-  peers      Peer[]      @relation("UserPeers")
-  ownedPeers Peer[]      @relation("UserOwnedPeers")
-  System     System[]
-  PeerTag  PeerTag[]
+  provider   String   @default("jwt")
+  Tokens     UserToken[]
+  Peers      Peer[]      @relation("UserPeers")
+  OwnedPeers Peer[]      @relation("UserOwnedPeers")
+  Systems    System[]
+  PeerTags   PeerTag[]
+  AuthCodes  AuthCode[]
+  @@unique([email, provider]) // Composite unique constraint
 }
 
 model UserToken {
@@ -47,6 +51,7 @@ model UserToken {
   userId   Int
   systemId String
   token    String
+  provider String
   isActive Boolean
 
   system System @relation(fields: [systemId], references: [id])
@@ -59,8 +64,8 @@ model Tag {
   tag      String
   color    BigInt
   isActive Boolean
-  peers    Peer[]    @relation("PeerTags")
-  PeerTag  PeerTag[]
+  Peers    Peer[]    @relation("PeerTags")
+  PeerTags PeerTag[]
   @@unique([tag, userId]) // Composite unique constraint
 }
 
@@ -72,11 +77,11 @@ model Peer {
   alias    String?
   hash     String?
   isActive Boolean
-  user     User?      @relation("UserPeers", fields: [userId], references: [id])
-  owner    User      @relation("UserOwnedPeers", fields: [ownerId], references: [id])
-  system   System    @relation(fields: [systemId], references: [id])
-  tags     Tag[]     @relation("PeerTags")
-  PeerTag  PeerTag[]
+  User     User?      @relation("UserPeers", fields: [userId], references: [id])
+  Owner    User      @relation("UserOwnedPeers", fields: [ownerId], references: [id])
+  System   System    @relation(fields: [systemId], references: [id])
+  Tags     Tag[]     @relation("PeerTags")
+  PeerTags PeerTag[]
   @@unique([systemId, ownerId]) // Composite unique constraint
 }
 
@@ -86,9 +91,19 @@ model PeerTag {
   ownerId  Int
   isActive Boolean
 
-  peer    Peer  @relation(fields: [peerId], references: [id])
-  tag     Tag   @relation(fields: [tagId], references: [id])
-  owner   User  @relation(fields: [ownerId], references: [id])
+  Peer    Peer  @relation(fields: [peerId], references: [id])
+  Tag     Tag   @relation(fields: [tagId], references: [id])
+  Owner   User  @relation(fields: [ownerId], references: [id])
 
   @@id([peerId, tagId, ownerId])
+}
+
+model AuthCode {
+  id          String       @id
+  systemId    String
+  accessToken String?
+  userId      Int?
+  isActive    Boolean
+  System      System    @relation(fields: [systemId], references: [id])
+  User        User?      @relation(fields: [userId], references: [id])
 }

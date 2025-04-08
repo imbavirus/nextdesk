@@ -1,8 +1,8 @@
-import { Heartbeat } from '@/model/heartbeat/Heartbeat';
-import { LoginRequest } from '@/model/login/LoginRequest';
-import { prisma } from './prismaManager';
-import { getUserIdFromUsername } from './userManager';
-import { Peer } from '@/model/peer/Peer';
+import { Heartbeat } from '@/types/heartbeat/Heartbeat';
+import { LoginRequest } from '@/types/login/LoginRequest';
+import { prisma } from './prismaService';
+import { getUserIdFromUsername } from './userService';
+import { Peer } from '@/types/peer/Peer';
 import { uniq } from 'lodash-es';
 import { User } from '@prisma/client';
 
