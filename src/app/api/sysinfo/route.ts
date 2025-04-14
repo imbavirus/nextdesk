@@ -1,9 +1,8 @@
+//app/api/sysinfo/route.ts
 import { SystemInformation } from '@/types/system/SystemInformation';
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { getUserIdFromUsername } from '@/services/userService';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/services/prismaService';
 
 
 export async function POST(req : Request) {

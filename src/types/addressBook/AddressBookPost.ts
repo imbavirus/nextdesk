@@ -1,8 +1,12 @@
-import { Peer } from '../peer/Peer';
+import { z } from 'zod';
+import { PeerSchema } from '../peer/Peer';
 
-export interface AddressBookPost {
-    tags : string[];
-    peers : Peer[];
-    tag_colors : string;
-    tagColors : { [key : string] : number };
-}
+export const AddressBookPostSchema = z.object({
+  tags: z.array(z.string()),
+  peers: z.array(PeerSchema),
+  tag_colors: z.string(),
+  tagColors: z.record(z.string(), z.number()),
+});
+
+// Infer the TypeScript interface from the Zod schema
+export type AddressBookPost = z.infer<typeof AddressBookPostSchema>;

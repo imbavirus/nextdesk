@@ -1,3 +1,4 @@
+//app/api/login-options/route.ts
 import { NextResponse } from 'next/server';
 
 const options = [

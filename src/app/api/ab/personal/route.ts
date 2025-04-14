@@ -1,3 +1,4 @@
+//app/api/ab/personal/route.ts
 import { unauthorizedResponse } from '@/services/loginService';
 import { getBearerToken } from '@/services/tokenService';
 import { getUserGuidFromId, getUserIdFromToken } from '@/services/userService';

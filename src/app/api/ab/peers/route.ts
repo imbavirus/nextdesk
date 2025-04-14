@@ -1,9 +1,8 @@
+//app/api/ab/peers/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { getUserIdFromGuid } from '@/services/userService';
 import { Peer } from '@/types/peer/Peer';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/services/prismaService';
 
 export async function POST(req : NextRequest) {
     // Access query parameters using .get()

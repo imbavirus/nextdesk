@@ -1,3 +1,4 @@
+//app/api/heartbeat/route.ts
 import { handleHeartbeat } from '@/services/sysInfoService';
 import { Heartbeat } from '@/types/heartbeat/Heartbeat';
 import { NextResponse } from 'next/server';

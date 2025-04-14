@@ -1,3 +1,4 @@
+//app/api/logout/route.ts
 import { disableToken, getBearerToken } from '@/services/tokenService';
 import { NextResponse } from 'next/server';
 

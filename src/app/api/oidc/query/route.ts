@@ -1,3 +1,4 @@
+//app/api/oidc/query/route.ts
 import { prisma } from '@/services/prismaService';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';

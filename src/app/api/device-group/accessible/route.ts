@@ -1,3 +1,5 @@
+//app/api/device-group/accessible/route.ts
+
 import { NextResponse } from 'next/server';
 
 export async function GET() {
