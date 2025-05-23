@@ -4,6 +4,13 @@ import { getUserIdFromGuid } from '@/services/userService';
 import { AddressBookTag } from '@/types/addressBook/AddressBookTag';
 import { NextResponse } from 'next/server';
 
+/**
+ * @openapi
+ * Get address book tags
+ * @desc: Retrieve all tags for a user's address book
+ * @auth: bearer
+ * @response: AddressBookTagsResponse
+ */
 export async function POST(req : Request,
     { params } : { params : Promise<{ tagId : Array<string> }> }
   ) {

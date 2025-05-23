@@ -21,9 +21,9 @@
     }
   },
   "apiDir": "./src/app/api",
-  "schemaDir": "./src",
+  "schemaDir": "./src/types",
   "docsUrl": "api-docs",
   "ui": "swagger",
   "outputFile": "swagger.json",
-  "includeOpenApiRoutes": false
+  "includeOpenApiRoutes": true
 }

@@ -24,83 +24,202 @@
     "/ab": {
       "get": {
         "operationId": "get-ab",
-        "summary": "",
-        "description": "",
+        "summary": " Get address book\r",
+        "description": "Retrieve the user's address book",
         "tags": [
           "Ab"
         ],
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+        "responses": {},
+        "security": [
+          {
+            "BearerAuth": []
           }
-        }
+        ]
       },
       "post": {
         "operationId": "post-ab",
-        "summary": "",
-        "description": "",
+        "summary": " Update address book\r",
+        "description": "Update the user's address book with new peers and tags",
         "tags": [
           "Ab"
         ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {}
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tags",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
               }
-            }
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "peers",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "hostname": {
+                    "type": "string"
+                  },
+                  "platform": {
+                    "type": "string"
+                  },
+                  "alias": {
+                    "type": "string"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "hash": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "username",
+                  "hostname",
+                  "platform",
+                  "alias",
+                  "tags",
+                  "hash"
+                ]
+              }
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "tag_colors",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "tagColors",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number"
+              }
+            },
+            "required": false
           }
-        }
+        ],
+        "responses": {},
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/ab/peers": {
       "post": {
         "operationId": "post-ab-peers",
-        "summary": "",
-        "description": "",
+        "summary": " Retrieve a list of active peers for a user\r",
+        "description": "Get paginated list of active peers with optional address book filtering",
         "tags": [
           "Ab"
         ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "current",
+            "schema": {},
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "schema": {},
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ab",
+            "schema": {},
+            "required": false
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "username": {
+                        "type": "string"
+                      },
+                      "hostname": {
+                        "type": "string"
+                      },
+                      "platform": {
+                        "type": "string"
+                      },
+                      "alias": {
+                        "type": "string"
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "hash": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "username",
+                      "hostname",
+                      "platform",
+                      "alias",
+                      "tags",
+                      "hash"
+                    ]
+                  }
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/ab/personal": {
       "get": {
         "operationId": "get-ab-personal",
-        "summary": "",
-        "description": "",
+        "summary": " Get personal address book GUID\r",
+        "description": "Retrieve the GUID for a user's personal address book",
         "tags": [
           "Ab"
         ],
@@ -110,100 +229,163 @@
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "guid": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "guid"
+                  ]
+                }
               }
-            }
-          }
-        }
-      },
-      "post": {
-        "operationId": "post-ab-personal",
-        "summary": "",
-        "description": "",
-        "tags": [
-          "Ab"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
             }
           }
         },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "post-ab-personal",
+        "summary": " Update personal address book GUID\r",
+        "description": "Update the GUID for a user's personal address book",
+        "tags": [
+          "Ab"
+        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "guid": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "guid"
+                  ]
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/ab/settings": {
       "post": {
         "operationId": "post-ab-settings",
-        "summary": "",
-        "description": "",
+        "summary": " Update address book settings\r",
+        "description": "Update settings for a user's address book",
         "tags": [
           "Ab"
         ],
         "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {}
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/ab/shared/profiles": {
       "post": {
         "operationId": "post-ab-shared-profiles",
-        "summary": "",
-        "description": "",
+        "summary": " Get shared address book profiles\r",
+        "description": "Retrieve all shared profiles for a user's address book",
         "tags": [
           "Ab"
         ],
         "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "guid": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "owner": {
+                        "type": "string"
+                      },
+                      "note": {},
+                      "rule": {
+                        "type": "string",
+                        "enum": [
+                          "1",
+                          "2",
+                          "3"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "guid",
+                      "name",
+                      "owner",
+                      "note",
+                      "rule"
+                    ]
+                  }
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/ab/tag/[...tagId]": {
       "delete": {
         "operationId": "delete-ab-tag-[...tagId]",
-        "summary": "",
-        "description": "",
+        "summary": " Delete address book tags\r",
+        "description": "Delete multiple tags from a user's address book",
         "tags": [
           "Ab"
         ],
@@ -213,74 +395,133 @@
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {}
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/ab/tags/[...tagId]": {
       "post": {
         "operationId": "post-ab-tags-[...tagId]",
-        "summary": "",
-        "description": "",
+        "summary": " Get address book tags\r",
+        "description": "Retrieve all tags for a user's address book",
         "tags": [
           "Ab"
         ],
         "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "color": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "color"
+                    ]
+                  }
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/ab/tag/add/[...tagId]": {
       "post": {
         "operationId": "post-ab-tag-add-[...tagId]",
-        "summary": "",
-        "description": "",
+        "summary": " Add address book tag\r",
+        "description": "Add a new tag to a user's address book",
         "tags": [
           "Ab"
         ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "color",
+            "schema": {
+              "type": "number"
+            },
+            "required": false
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {}
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/device-group/accessible": {
       "get": {
         "operationId": "get-device-group-accessible",
-        "summary": "app/api/device-group/accessible/route.ts",
-        "description": "",
+        "summary": " Get accessible device groups\r",
+        "description": "Retrieve all device groups accessible to the user",
         "tags": [
           "Device-group"
         ],
@@ -290,63 +531,199 @@
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {}
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/heartbeat": {
       "post": {
         "operationId": "post-heartbeat",
-        "summary": "",
-        "description": "",
+        "summary": " Update system heartbeat\r",
+        "description": "Update the last seen timestamp for a system",
         "tags": [
           "Heartbeat"
         ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "modified_at",
+            "schema": {
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uuid",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ver",
+            "schema": {
+              "type": "number"
+            },
+            "required": false
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {}
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/login": {
       "post": {
         "operationId": "post-login",
-        "summary": "",
-        "description": "",
+        "summary": " Authenticate a user\r",
+        "description": "Handle user login with optional 2FA",
         "tags": [
           "Login"
         ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "schema": {},
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "password",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uuid",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "autoLogin",
+            "schema": {},
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {},
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "verificationCode",
+            "schema": {},
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "tfaCode",
+            "schema": {},
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "secret",
+            "schema": {},
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "deviceInfo",
+            "schema": {},
+            "required": false
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {},
+                    "type": {},
+                    "tfa_type": {},
+                    "secret": {},
+                    "user": {}
+                  },
+                  "required": [
+                    "access_token",
+                    "type",
+                    "tfa_type",
+                    "secret",
+                    "user"
+                  ]
+                }
               }
             }
           }
@@ -356,8 +733,8 @@
     "/login-options": {
       "get": {
         "operationId": "get-login-options",
-        "summary": "",
-        "description": "",
+        "summary": " Get available login options\r",
+        "description": "Retrieve a list of available OIDC login providers",
         "tags": [
           "Login-options"
         ],
@@ -367,7 +744,12 @@
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
@@ -377,53 +759,95 @@
     "/logout": {
       "post": {
         "operationId": "post-logout",
-        "summary": "",
-        "description": "",
+        "summary": " Logout user\r",
+        "description": "Invalidate the current user's bearer token",
         "tags": [
           "Logout"
         ],
         "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {}
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/oidc/auth": {
       "post": {
         "operationId": "post-oidc-auth",
-        "summary": "",
-        "description": "",
+        "summary": " Initiate OIDC authentication\r",
+        "description": "Start the OIDC authentication process for a device",
         "tags": [
           "Oidc"
         ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "op",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uuid",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "url"
+                  ]
+                }
               }
             }
           }
@@ -433,18 +857,59 @@
     "/oidc/auth-query": {
       "get": {
         "operationId": "get-oidc-auth-query",
-        "summary": "",
-        "description": "",
+        "summary": " Query OIDC authentication status\r",
+        "description": "Check the status of an OIDC authentication process",
         "tags": [
           "Oidc"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "code",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uuid",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {},
+                    "type": {},
+                    "tfa_type": {},
+                    "secret": {},
+                    "user": {}
+                  },
+                  "required": [
+                    "access_token",
+                    "type",
+                    "tfa_type",
+                    "secret",
+                    "user"
+                  ]
+                }
               }
             }
           }
@@ -454,25 +919,43 @@
     "/oidc/query": {
       "post": {
         "operationId": "post-oidc-query",
-        "summary": "",
-        "description": "",
+        "summary": " Query OIDC authentication code\r",
+        "description": "Check if an OIDC authentication code is ready",
         "tags": [
           "Oidc"
         ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "code",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {},
+                    "type": {},
+                    "tfa_type": {},
+                    "secret": {},
+                    "user": {}
+                  },
+                  "required": [
+                    "access_token",
+                    "type",
+                    "tfa_type",
+                    "secret",
+                    "user"
+                  ]
+                }
               }
             }
           }
@@ -482,25 +965,74 @@
     "/oidc/auth/complete": {
       "post": {
         "operationId": "post-oidc-auth-complete",
-        "summary": "",
-        "description": "",
+        "summary": " Complete OIDC authentication\r",
+        "description": "Finalize OIDC authentication by creating user and tokens",
         "tags": [
           "Oidc"
         ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "authCode",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "provider",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "systemId",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "accessToken",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {},
+                    "error": {}
+                  },
+                  "required": [
+                    "success",
+                    "data",
+                    "error"
+                  ]
+                }
               }
             }
           }
@@ -510,8 +1042,8 @@
     "/peers": {
       "get": {
         "operationId": "get-peers",
-        "summary": "",
-        "description": "",
+        "summary": " Get all peers\r",
+        "description": "Retrieve all peers in the system",
         "tags": [
           "Peers"
         ],
@@ -521,46 +1053,147 @@
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {}
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/sysinfo": {
       "post": {
         "operationId": "post-sysinfo",
-        "summary": "",
-        "description": "",
+        "summary": " Update system information\r",
+        "description": "Update or create system information for a user",
         "tags": [
           "Sysinfo"
         ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cpu",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "hostname",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "memory",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "os",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "username",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uuid",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "version",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "lastSeen",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {}
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/users": {
       "get": {
         "operationId": "get-users",
-        "summary": "",
-        "description": "",
+        "summary": " Get all users\r",
+        "description": "Retrieve all users in the system",
         "tags": [
           "Users"
         ],
@@ -570,11 +1203,28 @@
             "description": "Successful response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {}
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     }
   }

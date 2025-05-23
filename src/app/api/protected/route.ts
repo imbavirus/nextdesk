@@ -2,6 +2,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
+/**
+ * @openapi
+ * Protected route handler
+ * @desc: Handle protected API requests with session validation
+ * @auth: session
+ * @params: ProtectedRequest
+ * @response: ProtectedResponse
+ */
 export default async function handler(req : NextApiRequest, res : NextApiResponse) {
   const session = await getSession({ req });
 

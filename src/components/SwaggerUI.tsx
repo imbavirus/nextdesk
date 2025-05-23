@@ -1,6 +1,6 @@
 // components/SwaggerUIClient.tsx
 'use client'; // This directive makes the component a client-side component.
-import 'swagger-ui-react/swagger-ui.css';
+import 'swagger-ui/dist/swagger-ui.css';
 
 import dynamic from 'next/dynamic';
 

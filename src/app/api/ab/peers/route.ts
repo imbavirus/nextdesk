@@ -1,17 +1,24 @@
 //app/api/ab/peers/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getUserIdFromGuid } from '@/services/userService';
+import { getUserIdFromRequest } from '@/services/userService';
 import { Peer } from '@/types/peer/Peer';
 import { prisma } from '@/services/prismaService';
 
+/**
+ * @openapi
+ * Retrieve a list of active peers for a user
+ * @desc: Get paginated list of active peers with optional address book filtering
+ * @auth: bearer
+ * @params: PeerParams
+ * @response: PeerResponse
+ */
 export async function POST(req : NextRequest) {
-    // Access query parameters using .get()
     const current = req.nextUrl.searchParams.get('current');
     const pageSize = req.nextUrl.searchParams.get('pageSize');
     const ab = req.nextUrl.searchParams.get('ab');
     const skip = (Number(current) - 1) * Number(pageSize);
     const take = Number(pageSize);
-    const userId = await getUserIdFromGuid(ab as string);
+    const userId = await getUserIdFromRequest(req);
     if (!userId) {
         return NextResponse.error();
     }
@@ -35,12 +42,12 @@ export async function POST(req : NextRequest) {
         const result : Array<Peer> = peers.map(x => {
             return {
                 hash: ab ?? '',
-                id: x.System?.id ?? 0,
+                id: x.System.id,
                 username: x.User?.name ?? '',
-                hostname: x.System?.hostname ?? '',
-                platform: x.System?.platform ?? '',
+                hostname: x.System.hostname ?? '',
+                platform: x.System.platform ?? '',
                 alias: x.alias ?? '',
-                tags: x.Tags.map(x => x.tag),
+                tags: x.Tags.map(tag => tag.tag),
             };
         });
 

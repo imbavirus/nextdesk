@@ -3,6 +3,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { env } from 'process';
 import { prisma } from '@/services/prismaService';
 
+/**
+ * @openapi
+ * Initiate OIDC authentication
+ * @desc: Start the OIDC authentication process for a device
+ * @auth: none
+ * @params: OidcAuthRequest
+ * @response: OidcAuthResponse
+ */
 export async function POST(req : NextRequest) {
   const contentType = req.headers.get('content-type');
 

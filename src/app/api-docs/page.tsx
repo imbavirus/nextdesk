@@ -1,10 +1,10 @@
 // src/app/api-docs/page.tsx
-import SwaggerUIClient from '../../components/SwaggerUI';
+import SwaggerUIWrapper from '../../components/SwaggerUIWrapper';
 
 export default function ApiDocsPage() {
   return (
     <div suppressHydrationWarning>
-      <SwaggerUIClient />
+      <SwaggerUIWrapper />
     </div>
   );
 }

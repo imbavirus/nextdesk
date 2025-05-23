@@ -1,3 +1,4 @@
+import { NextRequest } from 'next/server';
 import { unauthorizedResponse } from './loginService';
 import { prisma } from './prismaService';
 import { UserStatus } from '@/types/user/UserStatus';
@@ -8,6 +9,24 @@ export const getUserIdFromToken = async (token : string) => {
     if (userToken === null) {
         throw unauthorizedResponse('Invalid token');
     }
+    return userToken.userId;
+};
+
+export const getUserIdFromRequest = async (req : Request | NextRequest) => {
+    const headers = req.headers;
+    const authHeader = headers.get('Authorization');
+
+    let token = null;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.substring(7); // Extract the token after "Bearer "
+    }
+
+    if (!token) throw unauthorizedResponse('Invalid token');
+
+    const userToken = await prisma.userToken.findFirst({ where: { token, isActive: true }});
+
+    if (!userToken) throw unauthorizedResponse('Invalid token');
+
     return userToken.userId;
 };
 

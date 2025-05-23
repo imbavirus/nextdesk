@@ -4,6 +4,14 @@ import { createOidcToken } from '@/services/tokenService';
 import { createOidcUser } from '@/services/userService';
 import { NextResponse } from 'next/server';
 
+/**
+ * @openapi
+ * Complete OIDC authentication
+ * @desc: Finalize OIDC authentication by creating user and tokens
+ * @auth: none
+ * @params: OidcAuthCompleteRequest
+ * @response: OidcAuthCompleteResponse
+ */
 export async function POST(req : Request) {
     const body = await req.json();
     const { email, authCode, provider, systemId, accessToken } = body;

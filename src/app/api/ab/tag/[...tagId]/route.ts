@@ -3,6 +3,14 @@ import { prisma } from '@/services/prismaService';
 import { getUserIdFromGuid } from '@/services/userService';
 import { NextResponse } from 'next/server';
 
+/**
+ * @openapi
+ * Delete address book tags
+ * @desc: Delete multiple tags from a user's address book
+ * @auth: bearer
+ * @params: DeleteTagsRequest
+ * @response: StatusResponse
+ */
 export async function DELETE(req : Request,
     { params } : { params : Promise<{ tagId : Array<string> }> }
   ) {

@@ -1,7 +1,7 @@
 import { LoginRequest } from '@/types/login/LoginRequest';
 import { User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from './prismaService';
 
 const disableTokens = async (userId : number, systemId : string, provider : string) => {    
@@ -46,7 +46,7 @@ export const handleToken = async (data : LoginRequest, prismaUser : User) => {
     return validatedToken;
 };
 
-export const getBearerToken = (req : Request) => {    
+export const getBearerToken = (req : Request | NextRequest) => {    
     const headers = req.headers;
     const authHeader = headers.get('Authorization');
 

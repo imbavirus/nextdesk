@@ -4,6 +4,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/services/nextAuthService';
 
+/**
+ * @openapi
+ * Query OIDC authentication code
+ * @desc: Check if an OIDC authentication code is ready
+ * @auth: none
+ * @params: OidcQueryRequest
+ * @response: LoginResponse
+ */
 export async function POST(req : NextRequest) {
   const { code } = await req.json();
 

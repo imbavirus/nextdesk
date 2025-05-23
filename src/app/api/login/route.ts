@@ -3,6 +3,14 @@ import { LoginRequest } from '@/types/login/LoginRequest';
 import { handleLogin } from '@/services/loginService';
 import { NextResponse } from 'next/server';
 
+/**
+ * @openapi
+ * Authenticate a user
+ * @desc: Handle user login with optional 2FA
+ * @auth: none
+ * @params: LoginRequest
+ * @response: LoginResponse
+ */
 export async function POST(req : Request) {
     const data : LoginRequest = await req.json();
     try {

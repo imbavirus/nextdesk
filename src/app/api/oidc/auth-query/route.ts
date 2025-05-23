@@ -3,6 +3,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/services/prismaService';
 import { UserPayload } from '@/types/user/UserPayload';
 
+/**
+ * @openapi
+ * Query OIDC authentication status
+ * @desc: Check the status of an OIDC authentication process
+ * @auth: none
+ * @params: OidcAuthQueryRequest
+ * @response: LoginResponse
+ */
 export async function GET(req : NextRequest) {
   const { searchParams } = new URL(req.url);
   const authCodeId = searchParams.get('code');

@@ -4,7 +4,14 @@ import { NextResponse } from 'next/server';
 import { getUserIdFromUsername } from '@/services/userService';
 import { prisma } from '@/services/prismaService';
 
-
+/**
+ * @openapi
+ * Update system information
+ * @desc: Update or create system information for a user
+ * @auth: bearer
+ * @params: SystemInformation
+ * @response: StatusResponse
+ */
 export async function POST(req : Request) {
     const data : SystemInformation = await req.json();
     const { id, cpu, os, hostname, memory, uuid, version } = data;
